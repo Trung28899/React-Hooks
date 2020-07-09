@@ -59,3 +59,16 @@ to see the 2 ways of updating state
     +, <input> of 'Amount': updating state properly, follow
     exactly this approach all the time for perfect state 
     updating
+
+VER 2: managing multiple states
+-------------------------------------------------------------------
+Code in 3rd commit
+
+The original approach would lengthen the code when it comes to 
+update states. We can call multiple useState() with the use of 
+array destructuring to manage multiple states easier. 
+
+Step 1: Go to components/Ingredients/IngredientsForm.js
+Step 2: See how useState() is used and declared
+Step 3: See onChange to see how to update state with multiple
+state
