@@ -94,3 +94,13 @@ by clicks
 Code in 5th commit
 
 See removeIngredientHandler() in Ingredients.js
+
+
+VER 5: Sending Http requests
+-------------------------------------------------------------------
+Code in 6th commit
+
+Step 1: Go to trung28899@gmail.com account, look for react-hook > realtimeDB
+to see the db
+Step 2: In Ingredients.js, look for addIngredientHandler()
+Step 3: See how data is posted in firebase and locally
