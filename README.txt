@@ -87,3 +87,10 @@ Step 1: Open IngredientsForm.js, Ingredients.js and IngredientList.js
 Step 2: In Ingredients.js, see how state is declared, manipulated 
 in addIngredientHandler() and how is it passed between different Components
 Step 3: See other opened script to see how props is used
+
+VER 4: CHALLENGE: how to remove the item under Loaded Ingredients
+by clicks
+-------------------------------------------------------------------
+Code in 5th commit
+
+See removeIngredientHandler() in Ingredients.js
