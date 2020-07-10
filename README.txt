@@ -40,6 +40,12 @@ c. useState() function return:
     +, 2nd element is a function that allows you to update
     your state
 
+d. Rules of Hooks: 
+- Must use the hooks inside functional components or custom
+hooks
+- Must use hooks on the root level in your root component
+(This means that you can't use hooks like useState() in nested function)
+
 3. Guide on how to use this module:
 
 VER 1: useState() to set, get and update
@@ -72,3 +78,12 @@ Step 1: Go to components/Ingredients/IngredientsForm.js
 Step 2: See how useState() is used and declared
 Step 3: See onChange to see how to update state with multiple
 state
+
+VER 3: Passing State Data Across Components
+-------------------------------------------------------------------
+Code in 4th commit
+
+Step 1: Open IngredientsForm.js, Ingredients.js and IngredientList.js
+Step 2: In Ingredients.js, see how state is declared, manipulated 
+in addIngredientHandler() and how is it passed between different Components
+Step 3: See other opened script to see how props is used
