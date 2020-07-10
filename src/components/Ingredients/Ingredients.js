@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import IngredientForm from "./IngredientForm";
 import Search from "./Search";
@@ -7,6 +7,45 @@ import IngredientList from "./IngredientList";
 
 const Ingredients = () => {
   const [userIngredients, setUserIngredients] = useState([]);
+
+  /*
+    This hook is used to manage side effect like http requests, etc...
+    This function run after the root function got rendered or re-rendered
+
+    Without the 2nd argument, the useEffect() re-run and make an infinite 
+    loop of requests. Also if you run this code outside of useEffect, The
+    same behavior should be expected
+
+    with [] as a second argument, useEffect() acts like componentDidMount: 
+    which means it runs only once after the 1st render
+
+    [userIngredients] means the fetch will run only when userIngredients changed
+  */
+  useEffect(() => {
+    fetch("https://react-hooks-603d6.firebaseio.com/ingredients.json")
+      .then((response) => {
+        return response.json();
+      })
+      .then((responseData) => {
+        const loadIngredients = [];
+        for (const key in responseData) {
+          loadIngredients.push({
+            id: key,
+            title: responseData[key].title,
+            amount: responseData[key].amount,
+          });
+        }
+        setUserIngredients(loadIngredients);
+      });
+  }, []);
+
+  useEffect(() => {
+    console.log("RENDERING INGREDIENTS");
+  }, [userIngredients]);
+
+  const filteredIngredientHandler = (filteredIngredients) => {
+    setUserIngredients(filteredIngredients);
+  };
 
   /*
 
@@ -51,7 +90,7 @@ const Ingredients = () => {
       <IngredientForm onAddIngredient={addIngredientHandler} />
 
       <section>
-        <Search />
+        <Search onLoadIngredients={filteredIngredientHandler} />
         <IngredientList
           ingredients={userIngredients}
           onRemoveItem={(id) => removeIngredientHandler(id)}

@@ -104,3 +104,16 @@ Step 1: Go to trung28899@gmail.com account, look for react-hook > realtimeDB
 to see the db
 Step 2: In Ingredients.js, look for addIngredientHandler()
 Step 3: See how data is posted in firebase and locally
+
+VER 6: Using useEffect() to handle Http requests
+(Replacement for componentDidMount() in Class-based)
+-------------------------------------------------------------------
+Code in 7th commit
+
+Step 1: Go to Ingredients.js, read code in useEffect hook
+The code in the 1st hook is to load the info in server to the
+state 
+Step 2: Read the note
+
+NOTE: Ignore the useEffect() in Search.js for this version
+as it is not completely done
