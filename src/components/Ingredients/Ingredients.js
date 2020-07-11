@@ -4,9 +4,12 @@ import IngredientForm from "./IngredientForm";
 import Search from "./Search";
 
 import IngredientList from "./IngredientList";
+import ErrorModal from "../UI/ErrorModal";
 
 const Ingredients = () => {
   const [userIngredients, setUserIngredients] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
 
   /*
     This hook is used to manage side effect like http requests, etc...
@@ -64,12 +67,14 @@ const Ingredients = () => {
     header: setting up the header
   */
   const addIngredientHandler = (ingredients) => {
+    setIsLoading(true);
     fetch("https://react-hooks-603d6.firebaseio.com/ingredients.json", {
       method: "POST",
       body: JSON.stringify(ingredients),
       headers: { "Content-Type": "application/json" },
     })
       .then((response) => {
+        setIsLoading(false);
         return response.json();
       })
       .then((responseData) => {
@@ -81,24 +86,40 @@ const Ingredients = () => {
   };
 
   const removeIngredientHandler = (id) => {
+    setIsLoading(true);
     fetch(`https://react-hooks-603d6.firebaseio.com/ingredients/${id}.json`, {
       method: "DELETE",
-    }).then((response) => {
-      const arrayCopy = userIngredients;
-      const filteredArray = arrayCopy.filter((item) => {
-        if (item.id === id) {
-          return false;
-        } else {
-          return true;
-        }
+    })
+      .then((response) => {
+        setIsLoading(false);
+        const arrayCopy = userIngredients;
+        const filteredArray = arrayCopy.filter((item) => {
+          if (item.id === id) {
+            return false;
+          } else {
+            return true;
+          }
+        });
+        setUserIngredients(filteredArray);
+      })
+      .catch((error) => {
+        // setError(error.message);
+        setError("Something went wrong");
       });
-      setUserIngredients(filteredArray);
-    });
+  };
+
+  const clearError = () => {
+    setError(null);
+    setIsLoading(false);
   };
 
   return (
     <div className="App">
-      <IngredientForm onAddIngredient={addIngredientHandler} />
+      {error && <ErrorModal onClose={clearError}>{error}</ErrorModal>}
+      <IngredientForm
+        onAddIngredient={addIngredientHandler}
+        loading={isLoading}
+      />
 
       <section>
         <Search onLoadIngredients={filteredIngredientHandler} />

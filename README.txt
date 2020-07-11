@@ -185,3 +185,19 @@ VER 9: Deleting Ingredients in firebase
 Code in 10th commit
 
 See removeIngredientHandler() in Ingredients.js
+
+VER 10: Handling Error
+and Understanding State Batching & State update
+(The working in the background of state in React Hooks)
+-------------------------------------------------------------------
+Code in 11st commit
+
+Step 1: Open Ingredients.js
+Step 2: In removeIngredientHandler, mess up the url to have some Error
+so that we can see how to handle it
+Step 3: Try to click to delete the item to see how it works
+Step 4: See error and isLoading state and how to use it 
+Step 5: Understanding State Batching & State Updates
+See this link: 
+https://www.udemy.com/course/react-the-complete-guide-incl-redux/learn/lecture/15701624#content
+(video 442)
