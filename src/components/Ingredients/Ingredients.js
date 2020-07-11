@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 import IngredientForm from "./IngredientForm";
 import Search from "./Search";
@@ -21,6 +21,7 @@ const Ingredients = () => {
 
     [userIngredients] means the fetch will run only when userIngredients changed
   */
+  // Fetch data at the beginning of the app
   useEffect(() => {
     fetch("https://react-hooks-603d6.firebaseio.com/ingredients.json")
       .then((response) => {
@@ -39,13 +40,19 @@ const Ingredients = () => {
       });
   }, []);
 
+  // effect when the state: userIngredients got changed
   useEffect(() => {
     console.log("RENDERING INGREDIENTS");
   }, [userIngredients]);
 
-  const filteredIngredientHandler = (filteredIngredients) => {
+  // Function passed to onChange in Search.js that update userIngredients state
+  /*
+    When we trigger useCallback() hook, the function is not re-created for a 2nd 
+    time when the component got re-rendered
+  */
+  const filteredIngredientHandler = useCallback((filteredIngredients) => {
     setUserIngredients(filteredIngredients);
-  };
+  }, []);
 
   /*
 
@@ -74,15 +81,19 @@ const Ingredients = () => {
   };
 
   const removeIngredientHandler = (id) => {
-    const arrayCopy = userIngredients;
-    const filteredArray = arrayCopy.filter((item) => {
-      if (item.id === id) {
-        return false;
-      } else {
-        return true;
-      }
+    fetch(`https://react-hooks-603d6.firebaseio.com/ingredients/${id}.json`, {
+      method: "DELETE",
+    }).then((response) => {
+      const arrayCopy = userIngredients;
+      const filteredArray = arrayCopy.filter((item) => {
+        if (item.id === id) {
+          return false;
+        } else {
+          return true;
+        }
+      });
+      setUserIngredients(filteredArray);
     });
-    setUserIngredients(filteredArray);
   };
 
   return (

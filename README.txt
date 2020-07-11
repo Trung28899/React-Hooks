@@ -1,4 +1,9 @@
-1. Tools used: 
+1. Tools used: List of Hooks used
+
+- useState(): managing state
+- useEffect(): Running side effects, requests, etc...
+- useCallback(): avoid infinite loop of requests
+- Refs & useRef(): get the realtime value of changing input box
 
 2. Core Knowledge: 
 
@@ -40,11 +45,33 @@ c. useState() function return:
     +, 2nd element is a function that allows you to update
     your state
 
+
 d. Rules of Hooks: 
 - Must use the hooks inside functional components or custom
 hooks
 - Must use hooks on the root level in your root component
 (This means that you can't use hooks like useState() in nested function)
+
+e. useEffect() Hooks: 
+- This hook is used to manage side effect like http requests, etc...
+This function run after the root function got rendered or re-rendered
+
+- Without the 2nd argument, the useEffect() re-run and make an infinite 
+    loop of requests. Also if you run this code outside of useEffect, The
+    same behavior should be expected
+
+- with [] as a second argument, useEffect() acts like componentDidMount: 
+    which means it runs only once after the 1st render
+
+- useEffect() if return, will always return a function (See code in 9th commmit)
+
+
+f. useCallback() Hooks: 
+When we trigger useCallback() hook, the function is not re-created for a 2nd 
+    time when the component got re-rendered
+
+g. Refs and useRef(): 
+used to get the realtime value of changing input box
 
 3. Guide on how to use this module:
 
@@ -115,5 +142,46 @@ The code in the 1st hook is to load the info in server to the
 state 
 Step 2: Read the note
 
-NOTE: Ignore the useEffect() in Search.js for this version
-as it is not completely done
+NOTE: useEffect() in Search.js is optional to see. Howevers, it is 
+not fully implemented in this version
+
+SPECIAL TRICK: search query with firebase
+See useEffect() in Search.js. See video 436. 
+Note the use of query and the rules setup
+in firebase > trung28899 > react-hooks
+
+VER 7: Using useCallback() Hooks 
+to avoid infinite loop of requests
+-------------------------------------------------------------------
+Code in 8th commit
+
+Step 1: In Search.js see the comment right above the useEffect() Hook
+Step 2: In Ingredients.js, look for useCallback(), see the comment and
+how does it work
+
+VER 8: Refs and useRef()
+cleaning up with useEffect()
+-------------------------------------------------------------------
+Code in 9th commit
+
+Step 1: Goes into Search.js
+Step 2: See variable 'inputRef' and ref attribute in the 
+<input>
+
+*, EXPLANATION FOR THE USE OF REF: 
+We don't want to send multiple requests to the server after 
+every keystroke 
+> so we need to set a time out to wait if user
+stop for 0.5s then we send the requests 
+> has an issue: state is async too so make it hard to manage 
+behavior
+> need a realtime input reference
+> need Refs and useRef()
+
+Step 3: see how useEffect() return a clearTimeOut for the timer
+
+VER 9: Deleting Ingredients in firebase
+-------------------------------------------------------------------
+Code in 10th commit
+
+See removeIngredientHandler() in Ingredients.js
