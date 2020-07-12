@@ -232,3 +232,14 @@ Step 4: See how dispatch() function is used in
 
 NOTE THAT: forgot to commmit few commits so 8th commit is crammed with more
 contents. Commit track before 10th commit is not correct
+
+
+VER 12: useContext() for application level state
+-------------------------------------------------------------------
+Code in 12nd Commit
+
+Step 1: create context/auth-context.js. See code auth-context.js 
+Step 2: go to index.js to see how to set up context for the application
+(AuthContextProvider)
+Step 3: go to App.js to see how to trigger useContext() and render 
+components conditionally with useContext()
