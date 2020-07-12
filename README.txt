@@ -4,6 +4,7 @@
 - useEffect(): Running side effects, requests, etc...
 - useCallback(): avoid infinite loop of requests
 - Refs & useRef(): get the realtime value of changing input box
+- useReducer(): a better alternative of useState()
 
 2. Core Knowledge: 
 
@@ -220,6 +221,14 @@ Step 3: See useReducer() declaration
 Step 4: See how dispatch() function is used in 
 filteredIngredientHandler, addIngredientHandler, removeIngredientHandler
 
+VER 12: useReducer() for Http state
+-------------------------------------------------------------------
+Code in 11st commit
+
+Step 1: Go into Ingredients.js
+Step 2: See how to set up reducer in 'httpReducer'
+Step 3: See useReducer() declaration for httpReducer
+Step 4: See how dispatch() function is used in 
 
 NOTE THAT: forgot to commmit few commits so 8th commit is crammed with more
 contents. Commit track before 10th commit is not correct
