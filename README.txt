@@ -73,6 +73,13 @@ When we trigger useCallback() hook, the function is not re-created for a 2nd
 g. Refs and useRef(): 
 used to get the realtime value of changing input box
 
+h. useReducer() Hooks: 
+- useReducer() a hook to manage app state. useReducer() provide more centralize
+and neater code to manage your data rather than useState() > should be more
+preferable
+- useReducer() will return a state object and a dispatch function
+- React will re-render the component whenever your reducer returns new state
+
 3. Guide on how to use this module:
 
 VER 1: useState() to set, get and update
@@ -162,7 +169,7 @@ how does it work
 VER 8: Refs and useRef()
 cleaning up with useEffect()
 -------------------------------------------------------------------
-Code in 9th commit
+Code in 8th commit
 
 Step 1: Goes into Search.js
 Step 2: See variable 'inputRef' and ref attribute in the 
@@ -182,7 +189,7 @@ Step 3: see how useEffect() return a clearTimeOut for the timer
 
 VER 9: Deleting Ingredients in firebase
 -------------------------------------------------------------------
-Code in 10th commit
+Code in 8th commit
 
 See removeIngredientHandler() in Ingredients.js
 
@@ -190,7 +197,7 @@ VER 10: Handling Error
 and Understanding State Batching & State update
 (The working in the background of state in React Hooks)
 -------------------------------------------------------------------
-Code in 11st commit
+Code in 9th commit
 
 Step 1: Open Ingredients.js
 Step 2: In removeIngredientHandler, mess up the url to have some Error
@@ -201,3 +208,18 @@ Step 5: Understanding State Batching & State Updates
 See this link: 
 https://www.udemy.com/course/react-the-complete-guide-incl-redux/learn/lecture/15701624#content
 (video 442)
+
+VER 11: useReducer() for managing state
+basic version
+-------------------------------------------------------------------
+Code in 10th commit
+
+Step 1: Go into Ingredients.js
+Step 2: See how to set up reducer in 'ingredientReducer'
+Step 3: See useReducer() declaration
+Step 4: See how dispatch() function is used in 
+filteredIngredientHandler, addIngredientHandler, removeIngredientHandler
+
+
+NOTE THAT: forgot to commmit few commits so 8th commit is crammed with more
+contents. Commit track before 10th commit is not correct

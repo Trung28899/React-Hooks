@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useReducer } from "react";
 
 import IngredientForm from "./IngredientForm";
 import Search from "./Search";
@@ -6,42 +6,29 @@ import Search from "./Search";
 import IngredientList from "./IngredientList";
 import ErrorModal from "../UI/ErrorModal";
 
+const ingredientReducer = (currentIngredients, action) => {
+  switch (action.type) {
+    case "SET":
+      return action.ingredients;
+    case "ADD":
+      return [...currentIngredients, action.ingredient];
+    case "DELETE":
+      return currentIngredients.filter((ing) => ing.id !== action.id);
+    default:
+      throw new Error("Should not get there!");
+  }
+};
+
 const Ingredients = () => {
-  const [userIngredients, setUserIngredients] = useState([]);
+  /*
+    note that React will re-render the component whenever your reducer returns new state
+
+    useReducer() will return a state object and a dispatch function
+  */
+  const [userIngredients, dispatch] = useReducer(ingredientReducer, []);
+  // const [userIngredients, setUserIngredients] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
-
-  /*
-    This hook is used to manage side effect like http requests, etc...
-    This function run after the root function got rendered or re-rendered
-
-    Without the 2nd argument, the useEffect() re-run and make an infinite 
-    loop of requests. Also if you run this code outside of useEffect, The
-    same behavior should be expected
-
-    with [] as a second argument, useEffect() acts like componentDidMount: 
-    which means it runs only once after the 1st render
-
-    [userIngredients] means the fetch will run only when userIngredients changed
-  */
-  // Fetch data at the beginning of the app
-  useEffect(() => {
-    fetch("https://react-hooks-603d6.firebaseio.com/ingredients.json")
-      .then((response) => {
-        return response.json();
-      })
-      .then((responseData) => {
-        const loadIngredients = [];
-        for (const key in responseData) {
-          loadIngredients.push({
-            id: key,
-            title: responseData[key].title,
-            amount: responseData[key].amount,
-          });
-        }
-        setUserIngredients(loadIngredients);
-      });
-  }, []);
 
   // effect when the state: userIngredients got changed
   useEffect(() => {
@@ -54,7 +41,7 @@ const Ingredients = () => {
     time when the component got re-rendered
   */
   const filteredIngredientHandler = useCallback((filteredIngredients) => {
-    setUserIngredients(filteredIngredients);
+    dispatch({ type: "SET", ingredients: filteredIngredients });
   }, []);
 
   /*
@@ -78,29 +65,32 @@ const Ingredients = () => {
         return response.json();
       })
       .then((responseData) => {
-        setUserIngredients((prevIngredients) => [
-          ...prevIngredients,
-          { id: responseData.name, ...ingredients },
-        ]);
+        dispatch({
+          type: "ADD",
+          ingredient: { id: responseData.name, ...ingredients },
+        });
       });
   };
 
-  const removeIngredientHandler = (id) => {
+  const removeIngredientHandler = (ingredientId) => {
     setIsLoading(true);
-    fetch(`https://react-hooks-603d6.firebaseio.com/ingredients/${id}.json`, {
-      method: "DELETE",
-    })
+    fetch(
+      `https://react-hooks-603d6.firebaseio.com/ingredients/${ingredientId}.json`,
+      {
+        method: "DELETE",
+      }
+    )
       .then((response) => {
         setIsLoading(false);
-        const arrayCopy = userIngredients;
-        const filteredArray = arrayCopy.filter((item) => {
-          if (item.id === id) {
-            return false;
-          } else {
-            return true;
-          }
-        });
-        setUserIngredients(filteredArray);
+        // const arrayCopy = userIngredients;
+        // const filteredArray = arrayCopy.filter((item) => {
+        //   if (item.id === ingredientId) {
+        //     return false;
+        //   } else {
+        //     return true;
+        //   }
+        // });
+        dispatch({ type: "DELETE", id: ingredientId });
       })
       .catch((error) => {
         // setError(error.message);
