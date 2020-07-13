@@ -2,9 +2,20 @@
 
 - useState(): managing state
 - useEffect(): Running side effects, requests, etc...
-- useCallback(): avoid infinite loop of requests
+- useCallback(): save a function that doesn't change 
+so when the component re-render, the function is not re-created
 - Refs & useRef(): get the realtime value of changing input box
 - useReducer(): a better alternative of useState()
+- useContext(): managing state in App level
+- useMemo(): save a value that doesn't change 
+so when the component re-render, the value is not re-created
+it is an alternative to React.memo() in IngredientsForm.js
+
+NOTE THAT: with hooks that deal with app component (like useEffect(), useCallback(), etc...), 
+the 2nd argument can be an array: 
+- with [] as a second argument, hooks runs only once after the 1st render
+- with other object in array as 2nd argument, hooks render only there is a
+change in the other object even thought the component got re-rendered multiple times
 
 2. Core Knowledge: 
 
@@ -234,7 +245,7 @@ NOTE THAT: forgot to commmit few commits so 8th commit is crammed with more
 contents. Commit track before 10th commit is not correct
 
 
-VER 12: useContext() for application level state
+VER 13: useContext() for application level state
 -------------------------------------------------------------------
 Code in 12nd Commit
 
@@ -243,3 +254,11 @@ Step 2: go to index.js to see how to set up context for the application
 (AuthContextProvider)
 Step 3: go to App.js to see how to trigger useContext() and render 
 components conditionally with useContext()
+
+
+VER 14: useMemo() for improve app performance
+-------------------------------------------------------------------
+Code in 13rd Commit
+
+Step 1: Go to Ingredients.js, see how ingredienList used useMemo()
+Step 2: investigate how it works
