@@ -30,7 +30,14 @@ const Ingredients = () => {
   */
   const [userIngredients, dispatch] = useReducer(ingredientReducer, []);
   // These 4 properties are returned in our custom hook
-  const { isLoading, error, data, sendRequest } = useHttp();
+  const {
+    isLoading,
+    error,
+    data,
+    sendRequest,
+    reqExtra,
+    reqIdentifier,
+  } = useHttp();
 
   // const [userIngredients, setUserIngredients] = useState([]);
   // const [isLoading, setIsLoading] = useState(false);
@@ -38,8 +45,15 @@ const Ingredients = () => {
 
   // effect when the state: userIngredients got changed
   useEffect(() => {
-    console.log("RENDERING INGREDIENTS");
-  }, [userIngredients]);
+    if (!isLoading && !error && reqIdentifier === "REMOVE_INGREDIENT") {
+      dispatch({ type: "DELETE", id: reqExtra });
+    } else if (!isLoading && !error && reqIdentifier === "ADD_INGREDIENT") {
+      dispatch({
+        type: "ADD",
+        ingredient: { id: data.name, ...reqExtra },
+      });
+    }
+  }, [data, reqExtra, reqIdentifier, isLoading, error]);
 
   // Function passed to onChange in Search.js that update userIngredients state
   /*
@@ -59,13 +73,27 @@ const Ingredients = () => {
     body: JSON.stringify: convert Json to normal javascript
     header: setting up the header
   */
-  const addIngredientHandler = useCallback((ingredients) => {}, []);
+  const addIngredientHandler = useCallback(
+    (ingredients) => {
+      sendRequest(
+        "https://react-hooks-603d6.firebaseio.com/ingredients.json",
+        "POST",
+        JSON.stringify(ingredients),
+        ingredients,
+        "ADD_INGREDIENT"
+      );
+    },
+    [sendRequest]
+  );
 
   const removeIngredientHandler = useCallback(
     (ingredientId) => {
       sendRequest(
         `https://react-hooks-603d6.firebaseio.com/ingredients/${ingredientId}.json`,
-        "DELETE"
+        "DELETE",
+        null,
+        ingredientId,
+        "REMOVE_INGREDIENT"
       );
     },
     [sendRequest]

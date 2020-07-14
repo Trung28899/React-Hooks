@@ -279,3 +279,22 @@ state and how useHttp() return objects
 Step 3: Go to Ingredients.js, see how useHttp() is declared with object
 destructuring, see how removeIngredientHandler() use the object got
 return from useHttp()
+
+In This commit, only removing ingredients works, adding wouldn't work
+
+VER 16: Sharing Data between custom hooks & component
+-------------------------------------------------------------------
+Code in 15th Commit
+
+Data object is stored in http.js, custom hook return data to Ingredients.js,
+Ingredients.js dispatch action to change data or send requests
+
+Step 1: Go to http.js to see
+- httpReducer: central data handler that took dispatches
+- useHttp: custom hooks that contain a bunch of logics and return an
+object ưith multiple properties
+
+Step 2: Go to Ingredients.js to see: 
+- how sendRequest() is used to dispatch info to http.js
+- useHttp() to get info from custom hook in http.js
+- useEffect() to render the info from custom hook in http.js
