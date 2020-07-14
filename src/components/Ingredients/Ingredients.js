@@ -37,11 +37,8 @@ const Ingredients = () => {
     sendRequest,
     reqExtra,
     reqIdentifier,
+    clear,
   } = useHttp();
-
-  // const [userIngredients, setUserIngredients] = useState([]);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [error, setError] = useState();
 
   // effect when the state: userIngredients got changed
   useEffect(() => {
@@ -99,9 +96,9 @@ const Ingredients = () => {
     [sendRequest]
   );
 
-  const clearError = useCallback(() => {
-    // dispatchHttp({ type: "CLEAR" });
-  }, []);
+  // const clearError = useCallback(() => {
+  //   // not used anymore, replaced by clear in onClose for <ErrorModal>
+  // }, []);
 
   const ingredienList = useMemo(() => {
     return (
@@ -114,7 +111,7 @@ const Ingredients = () => {
 
   return (
     <div className="App">
-      {error && <ErrorModal onClose={clearError}>{error}</ErrorModal>}
+      {error && <ErrorModal onClose={clear}>{error}</ErrorModal>}
       <IngredientForm
         onAddIngredient={addIngredientHandler}
         loading={isLoading}

@@ -1,5 +1,13 @@
 import { useReducer, useCallback } from "react";
 
+const initialState = {
+  loading: false,
+  error: null,
+  data: null,
+  extra: null,
+  identifier: null,
+};
+
 const httpReducer = (currentHttpState, action) => {
   switch (action.type) {
     case "SEND":
@@ -20,7 +28,7 @@ const httpReducer = (currentHttpState, action) => {
     case "ERROR":
       return { loading: false, error: action.errorMessage };
     case "CLEAR":
-      return { ...currentHttpState, error: null };
+      return initialState;
     default:
       throw new Error("Should not be reached");
   }
@@ -29,13 +37,9 @@ const httpReducer = (currentHttpState, action) => {
 // your hook must always start with use
 // In your custom hooks, you can use any other hooks
 const useHttp = () => {
-  const [httpState, dispatchHttp] = useReducer(httpReducer, {
-    loading: false,
-    error: null,
-    data: null,
-    extra: null,
-    identifier: null,
-  });
+  const [httpState, dispatchHttp] = useReducer(httpReducer, initialState);
+
+  const clear = useCallback(() => dispatchHttp({ type: "CLEAR" }), []);
 
   const sendRequest = useCallback(
     (url, method, body, reqExtra, reqIdentifier) => {
@@ -74,6 +78,7 @@ const useHttp = () => {
     sendRequest: sendRequest,
     reqExtra: httpState.extra,
     reqIdentifier: httpState.identifier,
+    clear: clear,
   };
 };
 

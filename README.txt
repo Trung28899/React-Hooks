@@ -292,9 +292,22 @@ Ingredients.js dispatch action to change data or send requests
 Step 1: Go to http.js to see
 - httpReducer: central data handler that took dispatches
 - useHttp: custom hooks that contain a bunch of logics and return an
-object ưith multiple properties
+object with multiple properties
 
 Step 2: Go to Ingredients.js to see: 
 - how sendRequest() is used to dispatch info to http.js
 - useHttp() to get info from custom hook in http.js
 - useEffect() to render the info from custom hook in http.js
+
+In this commit, add and remove ingredients work, handling error is not working
+
+VER 16.5: Using the Custom Hook
+-------------------------------------------------------------------
+Code in 16th Commit
+This version managing the error handling part
+
+Using Custom Hook in Ingredients.js and Search.js
+
+Step 1: see Ingredients.js to see how clear function (a partial return of useHttp)
+got used
+Step 2: see Search.js to see how useHttp() is used
