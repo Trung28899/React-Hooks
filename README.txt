@@ -92,6 +92,12 @@ preferable
 - useReducer() will return a state object and a dispatch function
 - React will re-render the component whenever your reducer returns new state
 
+i. Custom Hooks: 
+- Remember the following rules
+    +, your hook must always start with use
+    +, In your custom hooks, you can use any other hooks
+    +, Hooks must be used in the root functional component
+
 3. Guide on how to use this module:
 
 VER 1: useState() to set, get and update
@@ -262,3 +268,14 @@ Code in 13rd Commit
 
 Step 1: Go to Ingredients.js, see how ingredienList used useMemo()
 Step 2: investigate how it works
+
+VER 15: Getting Started with Custom Hooks
+-------------------------------------------------------------------
+Code in 14th Commit
+
+Step 1: Go to src/hooks/http.js. There was a hook useHttp() created
+Step 2: observe how useHttp() make an use of useReducer() to manage 
+state and how useHttp() return objects
+Step 3: Go to Ingredients.js, see how useHttp() is declared with object
+destructuring, see how removeIngredientHandler() use the object got
+return from useHttp()
